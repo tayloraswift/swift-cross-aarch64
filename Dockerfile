@@ -50,10 +50,9 @@ RUN apt -y install \
     zlib1g-dev
 
 # Install dependencies needed for AArch64 cross-compilation
-RUN apt -y install \
-    gcc-aarch64-linux-gnu \
-    g++-multilib \
-    libstdc++-12-dev-arm64-cross
+RUN apt -y install gcc-aarch64-linux-gnu
+RUN apt -y install libstdc++-12-dev-arm64-cross
+RUN apt -y install g++-multilib
 
 # Unpack the Swift toolchain for x86_64
 WORKDIR /home/ubuntu/x86_64/${SWIFT_VERSION}
