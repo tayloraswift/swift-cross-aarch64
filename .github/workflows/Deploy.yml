@@ -25,7 +25,7 @@ jobs:
             -   name: Log in to Docker Hub
                 uses: docker/login-action@master
                 with:
-                    username: ${{ secrets.DOCKERHUB_USERNAME }}
+                    username: ${{ vars.DOCKERHUB_USERNAME }}
                     password: ${{ secrets.DOCKERHUB_TOKEN }}
 
             -   name: Extract Docker metadata
