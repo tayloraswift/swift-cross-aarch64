@@ -49,7 +49,8 @@ RUN apt -y install \
     unzip \
     zlib1g-dev
 
-# Install dependencies needed for AArch64 cross-compilation
+# Install dependencies needed for AArch64 cross-compilation. For some reason, `apt` cannot
+# resolve the dependencies if we install them all at once.
 RUN apt -y install gcc-aarch64-linux-gnu
 RUN apt -y install libstdc++-12-dev-arm64-cross
 RUN apt -y install g++-multilib

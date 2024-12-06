@@ -1,0 +1,17 @@
+name: test
+
+on:
+    push:
+        branches: [ master ]
+
+jobs:
+    test:
+        name: Test cross-compilation
+        runs-on: ubuntu-latest
+
+        steps:
+            -   name: Checkout repository
+                uses: actions/checkout@v4
+
+            -   name: Test cross-compilation
+                run: Scripts/TestAll
