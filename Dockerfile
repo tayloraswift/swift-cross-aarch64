@@ -77,15 +77,6 @@ RUN ln -s \
     /home/ubuntu/x86_64/${SWIFT_VERSION}/usr/lib/swift/clang \
     /home/ubuntu/aarch64/${SWIFT_VERSION}/usr/lib/swift/clang
 
-# See:
-# https://forums.swift.org/t/aarch64-cross-compilation-not-working-with-static-swift-stdlib/76439
-RUN ln -s \
-    ../../swift_static/linux/static-stdlib-args.lnk \
-    /home/ubuntu/aarch64/${SWIFT_VERSION}/usr/lib/swift/linux/static-stdlib-args.lnk
-RUN ln -s \
-    ../../swift_static/linux/static-executable-args.lnk \
-    /home/ubuntu/aarch64/${SWIFT_VERSION}/usr/lib/swift/linux/static-executable-args.lnk
-
 # Create symbolic links to the Swift toolchains, to make it easier to reference them
 RUN ln -s /home/ubuntu/aarch64/${SWIFT_VERSION} /home/ubuntu/aarch64/swift
 RUN ln -s /home/ubuntu/x86_64/${SWIFT_VERSION} /home/ubuntu/x86_64/swift
