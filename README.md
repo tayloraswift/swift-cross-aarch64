@@ -20,7 +20,7 @@ If you really want to learn how Swift cross-compilation works, you can read a fu
 
 But if you’re just trying to deploy an application, all you really need to do is copy and paste this JSON destination template.
 
-> `aarch64-unknown-linux-gnu.json`
+> `aarch64-unknown-linux-gnu.static.json`
 ```json5
 {
     "version": 1,
@@ -40,7 +40,7 @@ But if you’re just trying to deploy an application, all you really need to do 
         // Add project-specific -Xcxx flags here
     ],
     "extra-swiftc-flags": [
-        "-resource-dir", "/home/ubuntu/aarch64/swift/usr/lib/swift"
+        "-resource-dir", "/home/ubuntu/aarch64/swift/usr/lib/swift_static"
 
         // Add project-specific -Xswiftc flags here
     ]
@@ -61,10 +61,20 @@ docker run -t --rm \
     tayloraswift/swift-cross-aarch64:master \
     /home/ubuntu/x86_64/swift/usr/bin/swift build \
         -c release \
-        --destination aarch64-unknown-linux-gnu.json \
+        --destination aarch64-unknown-linux-gnu.static.json \
         --static-swift-stdlib
 ```
 
 If you use the `tayloraswift/swift-cross-aarch64:master` tag, you should also be using the `--static-swift-stdlib` flag to avoid runtime incompatibilities, because Swift is not ABI stable on Linux. This is optimal if you are deploying a single monolithic binary to each machine.
 
 If you would rather not go this route, you need to ensure the correct Swift runtime is installed on the target machines at the path `/home/ubuntu/aarch64/swift/usr`. This is optimal if you are deploying multiple Swift applications per machine, but is a little more complicated to set up.
+
+
+## What are my alternatives?
+
+If your application and its dependencies support [Musl](https://musl.libc.org/), you could also use the [Static Linux SDK](https://www.swift.org/documentation/articles/static-linux-getting-started.html) to cross-compile portable binaries. However, many Swift packages depend on Glibc when building on Linux, so these Docker images allow you to use those libraries.
+
+
+## Do I really need to use Docker?
+
+No. You could also set up a cross-compilation environment directly on GitHub Actions by porting the commands in the [Dockerfile](Dockerfile) to a workflow step. But GitHub’s Linux runners already have Docker installed, and it doesn’t affect the generated binaries, so there’s not much of a point in avoiding Docker.
