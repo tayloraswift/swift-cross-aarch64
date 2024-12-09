@@ -37,10 +37,10 @@ RUN apt -y install \
     libc6-dev \
     libcurl4-openssl-dev \
     libedit2 \
-    libgcc-9-dev \
+    libgcc-13-dev \
     libncurses-dev \
     libsqlite3-0 \
-    libstdc++-9-dev \
+    libstdc++-13-dev \
     libxml2-dev \
     libz3-dev \
     pkg-config \
