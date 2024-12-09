@@ -7,30 +7,33 @@ ARG UBUNTU_VERSION='ubuntu24.04'
 
 WORKDIR /home/ubuntu
 
-RUN apt update
-RUN apt -y install curl
+# Squash the following RUN commands into a single command to reduce image size
+RUN <<EOF
+
+apt update
+apt -y install curl
 
 # Note: The Docker CLI does not print the correct URL to the console, but the actual
 # interpolated string passed to `curl` is correct.
-RUN curl "https://download.swift.org/\
+curl "https://download.swift.org/\
 swift-${SWIFT_VERSION}-release/\
 ${UBUNTU_VERSION//[.]/}/\
 swift-${SWIFT_VERSION}-RELEASE/\
 swift-${SWIFT_VERSION}-RELEASE-${UBUNTU_VERSION}.tar.gz" \
     -o toolchain.tar.gz
 
-RUN curl "https://download.swift.org/\
+curl "https://download.swift.org/\
 swift-${SWIFT_VERSION}-release/\
 ${UBUNTU_VERSION//[.]/}-aarch64/\
 swift-${SWIFT_VERSION}-RELEASE/\
 swift-${SWIFT_VERSION}-RELEASE-${UBUNTU_VERSION}-aarch64.tar.gz" \
     -o toolchain-aarch64.tar.gz
 
-RUN apt -y dist-upgrade
+apt -y dist-upgrade
 
 # Install dependencies of the Swift toolchain
-RUN apt update
-RUN apt -y install \
+apt update
+apt -y install \
     binutils \
     git \
     gnupg2 \
@@ -50,22 +53,25 @@ RUN apt -y install \
 
 # Install dependencies needed for AArch64 cross-compilation. For some reason, `apt` cannot
 # resolve the dependencies if we install them all at once.
-RUN apt -y install gcc-aarch64-linux-gnu
-RUN apt -y install libstdc++-13-dev-arm64-cross
-RUN apt -y install g++-multilib
+apt -y install gcc-aarch64-linux-gnu
+apt -y install libstdc++-13-dev-arm64-cross
+apt -y install g++-multilib
 
 # Unpack the Swift toolchain for x86_64
-WORKDIR /home/ubuntu/x86_64/${SWIFT_VERSION}
+mkdir -p /home/ubuntu/x86_64/${SWIFT_VERSION}
+cd /home/ubuntu/x86_64/${SWIFT_VERSION}
 
-RUN tar --strip-components=1 -xf /home/ubuntu/toolchain.tar.gz
-RUN rm /home/ubuntu/toolchain.tar.gz
+tar --strip-components=1 -xf /home/ubuntu/toolchain.tar.gz
+rm /home/ubuntu/toolchain.tar.gz
 
 # Unpack the Swift toolchain for AArch64
-WORKDIR /home/ubuntu/aarch64/${SWIFT_VERSION}
+mkdir -p /home/ubuntu/aarch64/${SWIFT_VERSION}
+cd /home/ubuntu/aarch64/${SWIFT_VERSION}
 
-RUN tar --strip-components=1 -xf /home/ubuntu/toolchain-aarch64.tar.gz
-RUN rm /home/ubuntu/toolchain-aarch64.tar.gz
+tar --strip-components=1 -xf /home/ubuntu/toolchain-aarch64.tar.gz
+rm /home/ubuntu/toolchain-aarch64.tar.gz
 
+EOF
 
 WORKDIR /home/ubuntu
 
