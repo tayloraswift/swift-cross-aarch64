@@ -10,7 +10,21 @@ on:
 
 jobs:
     build:
-        name: Build and push Docker image to Docker Hub
+        strategy:
+            matrix:
+                os:
+                    -   dockerfile: 'Ubuntu.22.04'
+                        display: 'Ubuntu 22.04'
+                        images:
+                            -   tayloraswift/swift-cross-aarch64-jammy
+
+                    -   dockerfile: 'Ubuntu.24.04'
+                        display: 'Ubuntu 24.04'
+                        images:
+                            -   tayloraswift/swift-cross-aarch64-noble
+                            -   tayloraswift/swift-cross-aarch64
+
+        name: ${{ matrix.os.display }}
         runs-on: ubuntu-latest
         permissions:
             packages: write
@@ -31,7 +45,7 @@ jobs:
             -   name: Extract Docker metadata
                 uses: docker/metadata-action@master
                 with:
-                    images: tayloraswift/swift-cross-aarch64
+                    images: ${{ matrix.os.images }}
                 id: metadata
 
             -   name: Set up Buildx
@@ -42,7 +56,7 @@ jobs:
                 uses: docker/build-push-action@v6
                 with:
                     context: .
-                    file: Dockerfile
+                    file: ${{ matrix.os.dockerfile }}.Dockerfile
                     push: true
                     labels: ${{ steps.metadata.outputs.labels }}
                     tags: ${{ steps.metadata.outputs.tags }}

@@ -1,10 +1,10 @@
 # Cross compilation requires libstdc++-12-dev-arm64-cross, which is only available in
 # Ubuntu 22.04 or newer.
-FROM ubuntu:jammy
+FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND noninteractive
 SHELL ["/bin/bash", "-c"]
 
-ARG SWIFT_VERSION='6.0.2'
+ARG SWIFT_VERSION
 ARG UBUNTU_VERSION='ubuntu22.04'
 
 WORKDIR /home/ubuntu
