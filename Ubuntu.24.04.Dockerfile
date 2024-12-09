@@ -38,6 +38,7 @@ RUN apt -y install \
     libcurl4-openssl-dev \
     libedit2 \
     libgcc-9-dev \
+    libncurses-dev \
     libsqlite3-0 \
     libstdc++-9-dev \
     libxml2-dev \

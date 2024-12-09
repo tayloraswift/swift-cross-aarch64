@@ -15,15 +15,15 @@ jobs:
                 os:
                     -   dockerfile: 'Ubuntu.22.04'
                         display: 'Ubuntu 22.04'
-                        image: tayloraswift/swift-cross-aarch64-jammy
+                        suffix: '-jammy'
 
                     -   dockerfile: 'Ubuntu.24.04'
                         display: 'Ubuntu 24.04'
-                        image: tayloraswift/swift-cross-aarch64-noble
+                        suffix: '-noble'
 
                     -   dockerfile: 'Ubuntu.Latest'
                         display: 'Ubuntu'
-                        image: tayloraswift/swift-cross-aarch64
+                        suffix: ''
 
         name: ${{ matrix.os.display }}
         runs-on: ubuntu-latest
@@ -46,7 +46,11 @@ jobs:
             -   name: Extract Docker metadata
                 uses: docker/metadata-action@master
                 with:
-                    images: ${{ matrix.os.images }}
+                    images: tayloraswift/swift-cross-aarch64
+                    flavor: |
+                        latest=auto
+                        prefix=
+                        suffix=${{ matrix.os.suffix }}
                 id: metadata
 
             -   name: Set up Buildx
