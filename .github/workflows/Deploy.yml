@@ -15,14 +15,15 @@ jobs:
                 os:
                     -   dockerfile: 'Ubuntu.22.04'
                         display: 'Ubuntu 22.04'
-                        images:
-                            -   tayloraswift/swift-cross-aarch64-jammy
+                        image: tayloraswift/swift-cross-aarch64-jammy
 
                     -   dockerfile: 'Ubuntu.24.04'
                         display: 'Ubuntu 24.04'
-                        images:
-                            -   tayloraswift/swift-cross-aarch64-noble
-                            -   tayloraswift/swift-cross-aarch64
+                        image: tayloraswift/swift-cross-aarch64-noble
+
+                    -   dockerfile: 'Ubuntu.Latest'
+                        display: 'Ubuntu'
+                        image: tayloraswift/swift-cross-aarch64
 
         name: ${{ matrix.os.display }}
         runs-on: ubuntu-latest
@@ -56,6 +57,8 @@ jobs:
                 uses: docker/build-push-action@v6
                 with:
                     context: .
+                    build-args: |
+                        SWIFT_VERSION=6.0.2
                     file: ${{ matrix.os.dockerfile }}.Dockerfile
                     push: true
                     labels: ${{ steps.metadata.outputs.labels }}
