@@ -51,7 +51,7 @@ RUN apt -y install \
 # Install dependencies needed for AArch64 cross-compilation. For some reason, `apt` cannot
 # resolve the dependencies if we install them all at once.
 RUN apt -y install gcc-aarch64-linux-gnu
-RUN apt -y install libstdc++-12-dev-arm64-cross
+RUN apt -y install libstdc++-13-dev-arm64-cross
 RUN apt -y install g++-multilib
 
 # Unpack the Swift toolchain for x86_64
