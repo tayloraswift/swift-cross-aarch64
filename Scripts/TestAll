@@ -3,7 +3,7 @@ set -e
 
 for dockerfile in *.Dockerfile; do
     docker build . -f $dockerfile -t swift-cross-aarch64:__test \
-        --build-arg SWIFT_VERSION=6.0.3
+        --build-arg SWIFT_VERSION=6.1
 
     # Test dynamically linked standard library
     docker run --rm \
