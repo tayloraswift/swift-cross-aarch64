@@ -62,7 +62,7 @@ jobs:
                 with:
                     context: .
                     build-args: |
-                        SWIFT_VERSION=6.0.3
+                        SWIFT_VERSION=6.1
                     file: ${{ matrix.os.dockerfile }}.Dockerfile
                     push: true
                     labels: ${{ steps.metadata.outputs.labels }}
