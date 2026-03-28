@@ -35,7 +35,7 @@ jobs:
 
         steps:
             -   name: Checkout repository
-                uses: actions/checkout@v4
+                uses: actions/checkout@v6
 
             -   name: Log in to Docker Hub
                 uses: docker/login-action@master
@@ -61,8 +61,7 @@ jobs:
                 uses: docker/build-push-action@v6
                 with:
                     context: .
-                    build-args: |
-                        SWIFT_VERSION=6.2.4
+                    build-args: SWIFT_VERSION=6.3
                     file: ${{ matrix.os.dockerfile }}.Dockerfile
                     push: true
                     labels: ${{ steps.metadata.outputs.labels }}
