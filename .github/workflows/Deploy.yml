@@ -13,10 +13,6 @@ jobs:
         strategy:
             matrix:
                 os:
-                    -   dockerfile: 'Ubuntu.22.04'
-                        display: 'Ubuntu 22.04'
-                        suffix: '-jammy'
-
                     -   dockerfile: 'Ubuntu.24.04'
                         display: 'Ubuntu 24.04'
                         suffix: '-noble'
@@ -35,7 +31,7 @@ jobs:
 
         steps:
             -   name: Checkout repository
-                uses: actions/checkout@v4
+                uses: actions/checkout@v6
 
             -   name: Log in to Docker Hub
                 uses: docker/login-action@master
@@ -46,7 +42,7 @@ jobs:
             -   name: Extract Docker metadata
                 uses: docker/metadata-action@master
                 with:
-                    images: tayloraswift/swift-cross-aarch64
+                    images: tayloraswift/swiftcross
                     flavor: |
                         latest=auto
                         prefix=
@@ -61,8 +57,7 @@ jobs:
                 uses: docker/build-push-action@v6
                 with:
                     context: .
-                    build-args: |
-                        SWIFT_VERSION=6.2.4
+                    build-args: SWIFT_VERSION=6.3
                     file: ${{ matrix.os.dockerfile }}.Dockerfile
                     push: true
                     labels: ${{ steps.metadata.outputs.labels }}

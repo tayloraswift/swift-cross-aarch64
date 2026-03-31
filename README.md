@@ -1,8 +1,8 @@
-[![ci status](https://github.com/tayloraswift/swift-cross-aarch64/actions/workflows/Test.yml/badge.svg)](https://github.com/tayloraswift/swift-cross-aarch64/actions/workflows/Test.yml)
-[![ci status](https://github.com/tayloraswift/swift-cross-aarch64/actions/workflows/Deploy.yml/badge.svg)](https://github.com/tayloraswift/swift-cross-aarch64/actions/workflows/Deploy.yml)
+[![ci status](https://github.com/rarestype/swift-docker-cross/actions/workflows/Test.yml/badge.svg)](https://github.com/rarestype/swift-docker-cross/actions/workflows/Test.yml)
+[![ci status](https://github.com/rarestype/swift-docker-cross/actions/workflows/Deploy.yml/badge.svg)](https://github.com/rarestype/swift-docker-cross/actions/workflows/Deploy.yml)
 
 
-This repository contains a Docker image for Swift AArch64 cross-compilation, and a GitHub Actions task that builds and pushes it to [`tayloraswift/swift-cross-aarch64`](https://hub.docker.com/r/tayloraswift/swift-cross-aarch64/tags) on DockerHub.
+This repository contains a Docker image for Swift AArch64 cross-compilation, and a GitHub Actions task that builds and pushes it to [`tayloraswift/swiftcross`](https://hub.docker.com/r/tayloraswift/swiftcross/tags) on DockerHub.
 
 
 ## Why would anyone want to do this?
@@ -58,14 +58,14 @@ Here’s a simple `docker run` command to build a SwiftPM project in the current
 docker run -t --rm \
     -v $PWD:/swift-example \
     -w /swift-example \
-    tayloraswift/swift-cross-aarch64:master \
+    tayloraswift/swiftcross:master \
     /home/ubuntu/x86_64/swift/usr/bin/swift build \
         -c release \
         --destination aarch64-unknown-linux-gnu.static.json \
         --static-swift-stdlib
 ```
 
-If you use the `tayloraswift/swift-cross-aarch64:master` tag, you should also be using the `--static-swift-stdlib` flag to avoid runtime incompatibilities, because Swift is not ABI stable on Linux. This is optimal if you are deploying a single monolithic binary to each machine.
+If you use the `tayloraswift/swiftcross:master` tag, you should also be using the `--static-swift-stdlib` flag to avoid runtime incompatibilities, because Swift is not ABI stable on Linux. This is optimal if you are deploying a single monolithic binary to each machine.
 
 If you would rather not go this route, you need to ensure the correct Swift runtime is installed on the target machines at the path `/home/ubuntu/aarch64/swift/usr`. This is optimal if you are deploying multiple Swift applications per machine, but is a little more complicated to set up.
 
